@@ -1,0 +1,77 @@
+﻿@{
+    ViewBag.Title = "Index";
+}
+
+<form role="form">
+    <div class="form-group">
+        <label for="apiUrl">Api url</label>
+        <input type="text" class="form-control" id="apiUrl" value="http://localhost:58524/api/MakeRequest" />
+        <label for="requestUrl">Email address</label>
+        <input type="text" class="form-control" id="requestUrl" placeholder="Enter url">
+    </div>
+    <button type="button" id="buttonSubmit" class="btn btn-default">Submit</button>
+    <button type="button" id="buttonInfo" class="btn btn-info">List</button>
+</form>
+
+<div id="requests">
+    @*request added here*@
+</div>
+
+<div>
+    <p id="message" class="has-error">@*message here*@</p>
+</div>
+
+<script>
+    var api = "";
+    var url = "";
+    var plaa;
+    function setMessage(msg) {
+        $('#message').text(msg);
+    }
+
+    function parseApi() {
+        api = $('#apiUrl').val();
+        if (api.length == 0) {
+            setMessage("api url is empty!");
+            return false;
+        }
+        return true;
+    }
+
+    function parseUrl() {
+        url = $('#requestUrl').val();
+        if (url.length == 0) {
+            setMessage("url is empty!");
+            return false;
+        }
+        return true;
+    }
+
+    function createRequest() {
+    }
+
+    function listRequest() {
+        if (parseApi()) {
+            $('#requests').children().remove();
+            $.ajax({
+                url: api,
+                beforeSend: function (jqXHR, settings) {
+                    jqXHR.setRequestHeader("Access-Control-Allow-Origin", "*");
+                },
+                contentType: "application/json; charset=utf-8",
+                success: function (data) {
+                    debugger;
+                },
+                error: function (data, status, error) {
+                    debugger;
+                    setMessage(error);
+                }
+            });
+        }
+    }
+
+    $(document).ready(function () {
+        $('#buttonSubmit').click(createRequest);
+        $('#buttonInfo').click(listRequest);
+    });
+</script>
