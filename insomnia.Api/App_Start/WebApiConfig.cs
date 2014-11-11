@@ -9,6 +9,9 @@ namespace insomnia.Api
     {
         public static void Register(HttpConfiguration config)
         {
+            // Enabling cross-domain requests
+            config.EnableCors();
+
             // Web API configuration and services
             config.MapHttpAttributeRoutes();
             config.Routes.MapHttpRoute(

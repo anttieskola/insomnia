@@ -5,9 +5,11 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using System.Web.Http.Cors;
 
 namespace insomnia.Api.Controllers
 {
+    [EnableCors(origins: "http://anttieskola.azurewebsites.net", headers: "*", methods: "*")]
     public class MakeRequestController : ApiController
     {
         // TODO: this is just dummy atm.
