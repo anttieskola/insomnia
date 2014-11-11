@@ -10,7 +10,25 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{909635
 		.nuget\NuGet.targets = .nuget\NuGet.targets
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "insomnia.Api", "insomnia.Api\insomnia.Api.csproj", "{5144EEE4-05B5-4759-8C6C-D1FEE601C8AC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "insomnia.Test", "insomnia.Test\insomnia.Test.csproj", "{CCD601AB-6295-4C11-AF6B-1A1EAB5BBE2E}"
+EndProject
 Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{5144EEE4-05B5-4759-8C6C-D1FEE601C8AC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5144EEE4-05B5-4759-8C6C-D1FEE601C8AC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5144EEE4-05B5-4759-8C6C-D1FEE601C8AC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5144EEE4-05B5-4759-8C6C-D1FEE601C8AC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CCD601AB-6295-4C11-AF6B-1A1EAB5BBE2E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CCD601AB-6295-4C11-AF6B-1A1EAB5BBE2E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CCD601AB-6295-4C11-AF6B-1A1EAB5BBE2E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CCD601AB-6295-4C11-AF6B-1A1EAB5BBE2E}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
