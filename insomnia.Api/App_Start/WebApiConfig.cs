@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Http;
+using System.Web.Http.Cors;
 
 namespace insomnia.Api
 {
@@ -10,7 +11,8 @@ namespace insomnia.Api
         public static void Register(HttpConfiguration config)
         {
             // Enabling cross-domain requests
-            config.EnableCors();
+            var cors = new EnableCorsAttribute("*", "*", "*");
+            config.EnableCors(cors);
 
             // Web API configuration and services
             config.MapHttpAttributeRoutes();

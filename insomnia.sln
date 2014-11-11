@@ -14,6 +14,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "insomnia.Api", "insomnia.Ap
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "insomnia.Test", "insomnia.Test\insomnia.Test.csproj", "{CCD601AB-6295-4C11-AF6B-1A1EAB5BBE2E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "insomnia.Client", "insomnia.Client\insomnia.Client.csproj", "{D5CB3BED-FF47-4437-BE7D-E903F5C0DCE7}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -28,6 +30,10 @@ Global
 		{CCD601AB-6295-4C11-AF6B-1A1EAB5BBE2E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CCD601AB-6295-4C11-AF6B-1A1EAB5BBE2E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CCD601AB-6295-4C11-AF6B-1A1EAB5BBE2E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D5CB3BED-FF47-4437-BE7D-E903F5C0DCE7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D5CB3BED-FF47-4437-BE7D-E903F5C0DCE7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D5CB3BED-FF47-4437-BE7D-E903F5C0DCE7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D5CB3BED-FF47-4437-BE7D-E903F5C0DCE7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
