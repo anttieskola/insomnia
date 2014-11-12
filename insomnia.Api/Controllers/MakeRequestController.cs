@@ -14,10 +14,12 @@ namespace insomnia.Api.Controllers
 {
     public class MakeRequestController : ApiController
     {
-        public const int HttpStatusCodeUnprocessableEntity = 422;
-
         private IRequestEngine re;
 
+        /// <summary>
+        /// injection contrustor
+        /// </summary>
+        /// <param name="e"></param>
         public MakeRequestController(IRequestEngine e)
         {
             re = e;

@@ -9,9 +9,10 @@ namespace insomnia.Api
 {
     // took this from http://www.asp.net/web-api/overview/advanced/dependency-injection
     // because did not want to install mvc package as it depends on mvc & razor
-    public class UnityResolver : IDependencyResolver
+    public sealed class UnityResolver : IDependencyResolver
     {
-        protected IUnityContainer container;
+        private IUnityContainer container;
+        private bool disposed;
 
         public UnityResolver(IUnityContainer container)
         {
@@ -20,6 +21,11 @@ namespace insomnia.Api
                 throw new ArgumentNullException("container");
             }
             this.container = container;
+        }
+
+        ~UnityResolver()
+        {
+            this.Dispose(false);
         }
 
         public object GetService(Type serviceType)
@@ -54,7 +60,25 @@ namespace insomnia.Api
 
         public void Dispose()
         {
-            container.Dispose();
+            this.Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        private void Dispose(bool disposing)
+        {
+            lock (this)
+            {
+                if (!this.disposed)
+                {
+                    if (disposing)
+                    {
+                        // managed
+                        container.Dispose();
+                    }
+                    // unmanaged
+                    this.disposed = true;
+                }
+            }
         }
     }
 }
