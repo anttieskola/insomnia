@@ -6,6 +6,12 @@ and full control of it.
 ## Api
 Web service
 
+## Domain
+Simple engine to create the requests
+
+## Client
+Example using the api
+
 ## Test
 Testproject for cases in any of the other projects.
 Remember to add to other modules:
