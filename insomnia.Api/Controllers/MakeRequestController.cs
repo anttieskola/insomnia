@@ -1,9 +1,12 @@
 ﻿using insomnia.Api.Models;
+using insomnia.Domain;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Threading;
+using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Cors;
 
@@ -11,35 +14,49 @@ namespace insomnia.Api.Controllers
 {
     public class MakeRequestController : ApiController
     {
-        // TODO: this is just dummy atm.
-        public List<RequestModel> requests;
+        public const int HttpStatusCodeUnprocessableEntity = 422;
 
-        public MakeRequestController()
+        private IRequestEngine re;
+
+        public MakeRequestController(IRequestEngine e)
         {
-            requests = new List<RequestModel>();
+            re = e;
         }
 
         [HttpGet]
         public HttpResponseMessage Get()
         {
-            RequestListModel list = new RequestListModel();
-            list.Count = requests.Count;
-            list.Requests = requests;
-            return Request.CreateResponse(list);
+            IEnumerable<RequestModel> list = re.List();
+            RequestListViewModel vm = new RequestListViewModel();
+            vm.Count = list.Count();
+            vm.Requests = new List<RequestModel>(list.ToArray());
+            return Request.CreateResponse(vm);
         }
 
         [HttpPost]
-        public HttpResponseMessage Post([FromBody]RequestPostModel req)
+        public async Task<HttpResponseMessage> Post([FromBody]RequestPostModel req)
         {
+            RequestPostResponseModel m = new RequestPostResponseModel();
             if (req != null)
             {
                 if (req.Url != null)
                 {
-                    requests.Add(new RequestModel { Url = req.Url, Created = DateTime.Now });
-                    return Request.CreateResponse(HttpStatusCode.Accepted);
+                    int ret = await re.Create(req.Url);
+                    m.Success = true;
+                    m.StatusCode = ret;
+                }
+                else
+                {
+                    m.Success = false;
+                    m.Error = "url was not defined";
                 }
             }
-            return Request.CreateResponse((HttpStatusCode)422); // unprocessable entity
+            else
+            {
+                m.Success = false;
+                m.Error = "no data defined, please define url";
+            }
+            return Request.CreateResponse(m);
         }
     }
 }

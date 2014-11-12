@@ -1,4 +1,5 @@
-﻿using System;
+﻿using insomnia.Domain;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -10,13 +11,14 @@ namespace insomnia.Api.Models
         public String Url { get; set; }
     }
 
-    public class RequestModel
+    public class RequestPostResponseModel
     {
-        public String Url { get; set; }
-        public DateTime Created { get; set; }
+        public int StatusCode { get; set; }
+        public bool Success { get; set; }
+        public String Error { get; set; }
     }
 
-    public class RequestListModel
+    public class RequestListViewModel
     {
         public List<RequestModel> Requests { get; set; }
         public int Count { get; set; }

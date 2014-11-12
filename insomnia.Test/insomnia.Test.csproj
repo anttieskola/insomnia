@@ -37,6 +37,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Moq">
+      <HintPath>..\packages\Moq.4.2.1409.1722\lib\net40\Moq.dll</HintPath>
+    </Reference>
     <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Newtonsoft.Json.6.0.4\lib\net45\Newtonsoft.Json.dll</HintPath>
@@ -73,8 +76,13 @@
       <Project>{5144eee4-05b5-4759-8c6c-d1fee601c8ac}</Project>
       <Name>insomnia.Api</Name>
     </ProjectReference>
+    <ProjectReference Include="..\insomnia.Domain\insomnia.Domain.csproj">
+      <Project>{df9310fe-2a67-4d79-bf60-b928898947f0}</Project>
+      <Name>insomnia.Domain</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <Choose>

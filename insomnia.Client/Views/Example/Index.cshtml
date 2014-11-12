@@ -2,7 +2,7 @@
     ViewBag.Title = "Index";
 }
 
-<div class="col-md-12">
+<div class="col-md-6">
     <form role="form">
         <div class="form-group">
             <label for="apiUrl">Api url</label>
@@ -12,17 +12,18 @@
         </div>
         <div class="form-group">
             <button type="button" id="buttonSubmit" class="btn btn-default">Submit</button>
-            <button type="button" id="buttonInfo" class="btn btn-info">List</button>
+            <button type="button" id="buttonInfo" class="btn btn-info">Refresh</button>
         </div>
     </form>
 </div>
 
-<div id="requests" class="col-md-12">
-    @*request added here*@
+<div class="col-md-6">
+    <h4>Message</h4>
+    <p id="message" class="has-error">@*message here*@</p>
 </div>
 
-<div class="col-md-12">
-    <p id="message" class="has-error">@*message here*@</p>
+<div id="requests" class="col-md-12">
+    @*request added here*@
 </div>
 
 <script>
@@ -66,6 +67,7 @@
                 contentType: "application/json; charset=utf-8",
                 success: function (data) {
                     setMessage("request send");
+                    listRequest();
                 },
                 error: function (data, status, error) {
                     setMessage(error);
@@ -85,19 +87,28 @@
                 headers: { "Access-Control-Allow-Origin": "*" },
                 contentType: "application/json; charset=utf-8",
                 success: function (data) {
-                    var table = $('<table/>').addClass('table');
+                    // total count
+                    $('<p/>').text("Total count of requests: " + data.Count).appendTo(listDiv);
+
+                    // request table
+                    var table = $('<table/>').addClass('table').addClass('table-striped');
+
+                    // headers
+                    var row = $('<tr/>');
+                    $('<th/>').text("Request URL").appendTo(row);
+                    $('<th/>').text("Created").appendTo(row);
+                    $('<th/>').text("Completed").appendTo(row);
+                    $('<th/>').text("HTTP status code").appendTo(row);
+                    row.appendTo(table);
                     // request rows
                     $.each(data.Requests, function (i, item) {
-                        var row = $('<tr/>');
-                        $('<td/>').text(uri.Url).appendTo(row);
-                        $('<td/>').text(Uri.Created).appendTo(row);
+                        row = $('<tr/>');
+                        $('<td/>').text(item.Url).appendTo(row);
+                        $('<td/>').text(item.Created).appendTo(row);
+                        $('<td/>').text(item.Completed).appendTo(row);
+                        $('<td/>').text(item.StatusCode).appendTo(row);
                         row.appendTo(table);
                     });
-                    // total count
-                    var row = $('<tr/>');
-                    $('<td/>').text('Total count:').appendTo(row);
-                    $('<td/>').text(data.Count).appendTo(row);
-                    row.appendTo(table);
                     table.appendTo(listDiv);
                 },
                 error: function (data, status, error) {
@@ -110,5 +121,6 @@
     $(document).ready(function () {
         $('#buttonSubmit').click(createRequest);
         $('#buttonInfo').click(listRequest);
+        listRequest();
     });
 </script>
