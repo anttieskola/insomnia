@@ -21,7 +21,7 @@ namespace insomnia.Api
             config.EnableSystemDiagnosticsTracing();
 
             // Enabling cross-domain requests. For my sites and local development.
-            var cors = new EnableCorsAttribute("http://www.anttieskola.com,http://anttieskola.azuwebsites.net,http://localhost:65432", "*", "*");
+            var cors = new EnableCorsAttribute("http://www.anttieskola.com,http://anttieskola.azuwebsites.net", "*", "*");
             config.EnableCors(cors);
 
             // Web API configuration and services
