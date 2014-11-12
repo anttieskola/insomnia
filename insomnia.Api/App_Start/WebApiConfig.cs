@@ -10,6 +10,9 @@ namespace insomnia.Api
     {
         public static void Register(HttpConfiguration config)
         {
+            // Tracing
+            config.EnableSystemDiagnosticsTracing();
+
             // Enabling cross-domain requests
             var cors = new EnableCorsAttribute("*", "*", "*");
             config.EnableCors(cors);
@@ -18,8 +21,7 @@ namespace insomnia.Api
             config.MapHttpAttributeRoutes();
             config.Routes.MapHttpRoute(
                 name: "DefaultApi",
-                routeTemplate: "api/{controller}/{url}",
-                defaults: new { url = RouteParameter.Optional }
+                routeTemplate: "api/{controller}"
             );
         }
     }

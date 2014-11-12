@@ -16,7 +16,7 @@ namespace insomnia.Test
     [TestClass]
     public class Test_Api_MakeRequest
     {
-        private const String TESTURI = "http://www.anttieskola.com";
+        private RequestPostModel TESTURI = new RequestPostModel { Url = "http://www.anttieskola.com" };
 
         private static MakeRequestController createAndSetup()
         {
@@ -28,43 +28,51 @@ namespace insomnia.Test
         }
 
         [TestMethod]
-        public void List()
+        public void Get()
         {
             MakeRequestController controller = createAndSetup();
 
             // 0 requests
-            var response = controller.GetList();
+            var response = controller.Get();
             RequestListModel model;
             Assert.IsTrue(response.TryGetContentValue(out model));
             Assert.AreEqual(0, model.Count);
         }
 
         [TestMethod]
-        public void New()
+        public void Post()
         {
             MakeRequestController controller = createAndSetup();
 
             // simply check return status
-            var response = controller.PostNew(TESTURI);
+            var response = controller.Post(TESTURI);
             Assert.AreEqual(HttpStatusCode.Accepted, response.StatusCode);
+
+            // null input
+            response = controller.Post(null);
+            Assert.AreEqual((HttpStatusCode)422, response.StatusCode);
+
+            // null url
+            response = controller.Post(new RequestPostModel());
+            Assert.AreEqual((HttpStatusCode)422, response.StatusCode);
         }
 
         [TestMethod]
-        public void NewAndList()
+        public void Usage()
         {
             MakeRequestController controller = createAndSetup();
 
             // create request and check it is in the list
             DateTime currentTime = DateTime.Now;
-            var response = controller.PostNew(TESTURI);
+            var response = controller.Post(TESTURI);
             Assert.AreEqual(HttpStatusCode.Accepted, response.StatusCode);
 
-            response = controller.GetList();
+            response = controller.Get();
             RequestListModel listModel;
             Assert.IsTrue(response.TryGetContentValue(out listModel));
             Assert.AreEqual(1, listModel.Count);
             RequestModel model = listModel.Requests.First();
-            Assert.AreEqual(TESTURI, model.Url);
+            Assert.AreEqual(TESTURI.Url, model.Url);
             long ticksToCreate = model.Created.Ticks - currentTime.Ticks;
             // request was made in the last 5 seconds
             Assert.IsTrue(ticksToCreate < 50000000 && ticksToCreate > -1);

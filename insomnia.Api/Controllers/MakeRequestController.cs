@@ -20,7 +20,7 @@ namespace insomnia.Api.Controllers
         }
 
         [HttpGet]
-        public HttpResponseMessage GetList()
+        public HttpResponseMessage Get()
         {
             RequestListModel list = new RequestListModel();
             list.Count = requests.Count;
@@ -29,10 +29,17 @@ namespace insomnia.Api.Controllers
         }
 
         [HttpPost]
-        public HttpResponseMessage PostNew(String url)
+        public HttpResponseMessage Post([FromBody]RequestPostModel req)
         {
-            requests.Add(new RequestModel { Url = url, Created = DateTime.Now });
-            return Request.CreateResponse(HttpStatusCode.Accepted);
+            if (req != null)
+            {
+                if (req.Url != null)
+                {
+                    requests.Add(new RequestModel { Url = req.Url, Created = DateTime.Now });
+                    return Request.CreateResponse(HttpStatusCode.Accepted);
+                }
+            }
+            return Request.CreateResponse((HttpStatusCode)422); // unprocessable entity
         }
     }
 }

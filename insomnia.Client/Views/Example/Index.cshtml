@@ -2,29 +2,33 @@
     ViewBag.Title = "Index";
 }
 
-<form role="form">
-    <div class="form-group">
-        <label for="apiUrl">Api url</label>
-        <input type="text" class="form-control" id="apiUrl" value="http://localhost:58524/api/MakeRequest" />
-        <label for="requestUrl">Email address</label>
-        <input type="text" class="form-control" id="requestUrl" placeholder="Enter url">
-    </div>
-    <button type="button" id="buttonSubmit" class="btn btn-default">Submit</button>
-    <button type="button" id="buttonInfo" class="btn btn-info">List</button>
-</form>
+<div class="col-md-12">
+    <form role="form">
+        <div class="form-group">
+            <label for="apiUrl">Api url</label>
+            <input type="text" class="form-control" id="apiUrl" value="http://localhost:58524/api/MakeRequest" />
+            <label for="requestUrl">Email address</label>
+            <input type="text" class="form-control" id="requestUrl" placeholder="Enter url">
+        </div>
+        <div class="form-group">
+            <button type="button" id="buttonSubmit" class="btn btn-default">Submit</button>
+            <button type="button" id="buttonInfo" class="btn btn-info">List</button>
+        </div>
+    </form>
+</div>
 
-<div id="requests">
+<div id="requests" class="col-md-12">
     @*request added here*@
 </div>
 
-<div>
+<div class="col-md-12">
     <p id="message" class="has-error">@*message here*@</p>
 </div>
 
 <script>
     var api = "";
     var url = "";
-    var plaa;
+
     function setMessage(msg) {
         $('#message').text(msg);
     }
@@ -48,22 +52,55 @@
     }
 
     function createRequest() {
+        if (parseApi() && parseUrl()) {
+            // payload
+            var postData = {
+                url: url
+            };
+            // call to api
+            $.ajax({
+                url: api,
+                method: 'post',
+                data: JSON.stringify(postData),
+                headers: { "Access-Control-Allow-Origin": "*" },
+                contentType: "application/json; charset=utf-8",
+                success: function (data) {
+                    setMessage("request send");
+                },
+                error: function (data, status, error) {
+                    setMessage(error);
+                }
+            });
+        }
     }
 
     function listRequest() {
         if (parseApi()) {
-            $('#requests').children().remove();
+            // div for request table also we clear it
+            var listDiv = $('#requests');
+            listDiv.children().remove();
+            // call to api
             $.ajax({
                 url: api,
-                beforeSend: function (jqXHR, settings) {
-                    jqXHR.setRequestHeader("Access-Control-Allow-Origin", "*");
-                },
+                headers: { "Access-Control-Allow-Origin": "*" },
                 contentType: "application/json; charset=utf-8",
                 success: function (data) {
-                    debugger;
+                    var table = $('<table/>').addClass('table');
+                    // request rows
+                    $.each(data.Requests, function (i, item) {
+                        var row = $('<tr/>');
+                        $('<td/>').text(uri.Url).appendTo(row);
+                        $('<td/>').text(Uri.Created).appendTo(row);
+                        row.appendTo(table);
+                    });
+                    // total count
+                    var row = $('<tr/>');
+                    $('<td/>').text('Total count:').appendTo(row);
+                    $('<td/>').text(data.Count).appendTo(row);
+                    row.appendTo(table);
+                    table.appendTo(listDiv);
                 },
                 error: function (data, status, error) {
-                    debugger;
                     setMessage(error);
                 }
             });

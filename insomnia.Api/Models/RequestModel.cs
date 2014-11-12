@@ -5,6 +5,11 @@ using System.Web;
 
 namespace insomnia.Api.Models
 {
+    public class RequestPostModel
+    {
+        public String Url { get; set; }
+    }
+
     public class RequestModel
     {
         public String Url { get; set; }
